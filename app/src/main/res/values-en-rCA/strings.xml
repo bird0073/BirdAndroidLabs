@@ -6,6 +6,6 @@
     <string name="ButtonText">Canadian Button!</string>
     <string name="login_Text">Login: </string>
     <string name="pass_Text">Password: </string>
-    <string name="switch_Text">Whats this switch do eh? </string>
+    <string name="switch_Text">This switch eh? </string>
 
 </resources>
