@@ -5,5 +5,6 @@
     <string name="login_Text">Login: </string>
     <string name="pass_Text">Password: </string>
     <string name="switch_Text">What does this do? </string>
+    <string name="LoginButton">Login</string>
 
 </resources>
