@@ -25,6 +25,7 @@ public class LoginActivity extends Activity {
 
         SharedPreferences prefs = getSharedPreferences("emailSave", Context.MODE_PRIVATE);
         final SharedPreferences.Editor emailOut = prefs.edit();
+        textEmail.setText(prefs.getString("emailSave", ""));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
