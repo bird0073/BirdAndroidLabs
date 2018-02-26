@@ -6,5 +6,11 @@
     <string name="pass_Text">Password: </string>
     <string name="switch_Text">What does this do? </string>
     <string name="LoginButton">Login</string>
+    <string name="dialog_message">Would you like to quit?</string>
+    <string name="dialog_title">Continue?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+
 
 </resources>

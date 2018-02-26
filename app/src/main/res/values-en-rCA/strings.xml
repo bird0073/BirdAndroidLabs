@@ -8,5 +8,9 @@
     <string name="pass_Text">Password: </string>
     <string name="switch_Text">Whats this switch do eh? </string>
     <string name="LoginButton">Login eh? </string>
+    <string name="dialog_message">Would you like to quit?</string>
+    <string name="dialog_title">Continue?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
