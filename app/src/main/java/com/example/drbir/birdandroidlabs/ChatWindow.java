@@ -3,12 +3,14 @@ package com.example.drbir.birdandroidlabs;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,9 @@ public class ChatWindow extends Activity {
         final EditText messageBx = (EditText) findViewById(R.id.messageBox);
         ListView chatList = (ListView) findViewById(R.id.chatList);
 
+        final ChatAdapter messageAdapter = new ChatAdapter(this);
+        chatList.setAdapter(messageAdapter);
+
         sendBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -33,9 +38,12 @@ public class ChatWindow extends Activity {
                 //final EditText textEmail = (EditText)findViewById(R.id.emailAddress);
                 chatListArray.add(messageBx.getText().toString());
                 messageBx.setText("");
+                messageAdapter.notifyDataSetChanged();
+                //getView()
             }
 
         }); //end sendBtn onClickListner
+
 
 
     }
@@ -59,8 +67,15 @@ public class ChatWindow extends Activity {
         public View getView(int position, View convertView, ViewGroup parent){
             //this returns the layout that will be positioned at the specified row in the list
             //step 9
-
-            return parent;
+            LayoutInflater inflater = ChatWindow.this.getLayoutInflater();
+            View result = null;
+            if(position%2==0)
+                    result = inflater.inflate(R.layout.chat_row_incoming, null);
+            else
+                    result = inflater.inflate(R.layout.chat_row_outgoing, null);
+            TextView message = (TextView) result.findViewById(R.id.message_text);
+            message.setText(getItem(position));
+            return result;
 
         }
 
