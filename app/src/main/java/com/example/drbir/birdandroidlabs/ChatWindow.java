@@ -1,8 +1,12 @@
 package com.example.drbir.birdandroidlabs;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +18,54 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
 public class ChatWindow extends Activity {
 
     ArrayList<String> chatListArray = new ArrayList<>();
+    protected static final String ACTIVITY_NAME = "ChatWindow";
+    //private ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);
+    private SQLiteDatabase db;
+
+    @Override
+    protected void onDestroy(){
+        Log.i(ACTIVITY_NAME, "onDestroy");
+    super.onDestroy();
+    db.close();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_window);
 
+        //database****************************************************************************
+        final ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);
+        db = chatDBHelper.getWritableDatabase();
+        Cursor results = db.query(false, chatDBHelper.TABLE_NAME,
+                new String[] { chatDBHelper.KEY_ID, chatDBHelper.KEY_MESSAGE},
+                //"MESSAGE != ? ", new String [] {""},
+                null, null,
+                null, null, null, null);
+
+        //Cursor results = db.rawQuery("SELECT * FROM ? ", new String[] {chatDBHelper.TABLE_NAME});
+        results.moveToFirst();
+        //int colIndex = results.getColumnIndex( chatDBHelper.KEY_MESSAGE );
+
+        //for(int i = 0; i < results.getCount(); i++){
+        while(!results.isAfterLast() ){
+//            int colIndex = results.getColumnIndex( chatDBHelper.KEY_MESSAGE );
+//            String mess = results.getString( colIndex );
+//            chatListArray.add(mess);
+            chatListArray.add(results.getString(results.getColumnIndex( chatDBHelper.KEY_MESSAGE ) ));
+
+                Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + results.getString(
+                        results.getColumnIndex( ChatDatabaseHelper.KEY_MESSAGE) ) );
+            results.moveToNext();
+        }
+
+        Log.i(ACTIVITY_NAME, "Cursor's column count= " + results.getColumnCount());
+
+        //database****************************************************************************
 
         Button sendBtn = (Button) findViewById(R.id.sendButton);
         final EditText messageBx = (EditText) findViewById(R.id.messageBox);
@@ -35,7 +78,12 @@ public class ChatWindow extends Activity {
 
             @Override
             public void onClick(View view) {
-                //final EditText textEmail = (EditText)findViewById(R.id.emailAddress);
+                //db
+                ContentValues newData = new ContentValues();
+                newData.put(chatDBHelper.KEY_MESSAGE, messageBx.getText().toString());
+                db.insert(chatDBHelper.TABLE_NAME, null, newData);
+                //db.insert(chatDBHelper.TABLE_NAME, chatDBHelper.KEY_MESSAGE, newData);
+                //db
                 chatListArray.add(messageBx.getText().toString());
                 messageBx.setText("");
                 messageAdapter.notifyDataSetChanged();
