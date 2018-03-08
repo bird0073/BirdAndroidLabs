@@ -63,6 +63,10 @@ public class ChatWindow extends Activity {
             results.moveToNext();
         }
 
+        Log.i(ACTIVITY_NAME, "Column names: " + results.getColumnName(0)
+        + ", " + results.getColumnName(1));
+        //Log.i(ACTIVITY_NAME, "Column names: " + results.getColumnNames());
+
         Log.i(ACTIVITY_NAME, "Cursor's column count= " + results.getColumnCount());
 
         //database****************************************************************************

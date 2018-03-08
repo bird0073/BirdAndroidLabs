@@ -42,5 +42,8 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
         Log.i("DATABASE", "Database opened");
     }
 
+    public void onDowngrade(SQLiteDatabase db, int oldVer, int newVer){
+
+    }
 
 }
