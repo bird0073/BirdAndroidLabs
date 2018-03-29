@@ -6,27 +6,23 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Xml;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.view.View;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -45,7 +41,7 @@ public class WeatherForecast extends Activity {
     TextView currTempTV;
     TextView windSpeedTV;
     ImageView weatherImageIV;
-    //ProgressBar weatherProgress;
+    ProgressBar weatherProgress;
 
 
     protected static final String ACTIVITY_NAME = "WeatherForcast";
@@ -53,16 +49,18 @@ public class WeatherForecast extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weatherforecast);
         minTempTV = findViewById(R.id.minTemp);
         maxTempTV = findViewById(R.id.maxTemp);
         currTempTV = findViewById(R.id.currTemp);
         windSpeedTV = findViewById(R.id.windSpeed);
         weatherImageIV = findViewById(R.id.weatherImage);
-        //weatherProgress = (ProgressBar) findViewById( R.id.weatherProgress);
+        weatherProgress = (ProgressBar) findViewById( R.id.weatherProgress);
 
-        //weatherProgress.setMax(100);
+
+        weatherProgress.setMax(100);
         Log.i(ACTIVITY_NAME, "onCreate");
-        //weatherProgress.setVisibility(VISIBLE);
+        weatherProgress.setVisibility(View.VISIBLE);
 
         String urlLink = "http://api.openweathermap.org/data/2.5/weather?q=ottawa,ca&APPID=d99666875e0e51521f0040a3d97d0f6a&mode=xml&units=metric";
         ForecastQuery fq = new ForecastQuery();
@@ -73,11 +71,8 @@ public class WeatherForecast extends Activity {
 
     public class ForecastQuery extends AsyncTask<String, Integer, String>{
 
-
-
         public String doInBackground(String ... args)
         {
-            int counter = 0;
             for(String siteUrl: args)
             {
                 try {
@@ -105,32 +100,33 @@ public class WeatherForecast extends Activity {
                                     windSpeed = xpp.getAttributeValue(null, "name");
                                     Log.i("windSpeed:", windSpeed);
                                     //weatherProgress.setProgress(75);
-                                            //publishProgress( 75 );
+                                            publishProgress( 75 );
 
                                 }
                                 if(tagName.equals("temperature"))
                                 {
                                     minTemp = xpp.getAttributeValue(null, "min");
                                     Log.i("min:", minTemp);
-                                    //weatherProgress.setProgress(25);
-                                    //publishProgress( 25 );
+                                    weatherProgress.setProgress(25);
+                                    publishProgress( 25 );
                                     maxTemp = xpp.getAttributeValue(null, "max");
                                     Log.i("max:", maxTemp);
-                                    //weatherProgress.setProgress(50);
-                                    //publishProgress( 50 );
+                                    weatherProgress.setProgress(50);
+                                    publishProgress( 50 );
                                     currTemp = xpp.getAttributeValue(null, "value");
                                     Log.i("current:", currTemp);
-                                    minTempTV.setText(minTemp);
-                                    maxTempTV.setText(maxTemp);
-                                    currTempTV.setText(currTemp);
+
+                                    minTempTV.append(minTemp);
+                                    maxTempTV.append(maxTemp);
+                                    currTempTV.append(currTemp);
 
                                 }
                                 if(tagName.equals("weather"))
                                 {
                                     iconName = xpp.getAttributeValue(null, "icon");
                                     String ImageURL = "http://openweathermap.org/img/w/" + iconName + ".png";
-                                    //weatherProgress.setProgress(100);
-                                    // /publishProgress( 100 );
+                                    weatherProgress.setProgress(100);
+                                    publishProgress( 100 );
 
 
                                     //***
@@ -147,22 +143,17 @@ public class WeatherForecast extends Activity {
                                         FileOutputStream outputStream = openFileOutput
                                                 ( iconName + ".png", Context.MODE_PRIVATE);
                                         weatherPic = HttpUtils.getImage(ImageURL);
-                                        weatherPic.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
+                                        if (weatherPic != null) {
+                                            weatherPic.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
+                                        }
                                         outputStream.flush();
                                         outputStream.close();
                                     }
-                                    windSpeedTV.setText(windSpeed);
+                                    windSpeedTV.append(windSpeed);
                                     weatherImageIV.setImageBitmap(weatherPic);
                                     //***
                                 }
                                 //Log.i("Found tag:", tagName);
-                                break;
-
-                            case XmlPullParser.TEXT:
-                                String text = xpp.getText();
-
-                                //Log.i("Found text:", text);
-
                                 break;
                         }
                         xpp.next();
@@ -180,21 +171,22 @@ public class WeatherForecast extends Activity {
         }
     }
 
-    public void onProgressUpdate(Integer ... value){
-        //weatherProgress.setVisibility(VISIBLE);
+    public void onProgressUpdate(int value){
+        weatherProgress.setVisibility(VISIBLE);
+        weatherProgress.setProgress(value);
         Log.i(ACTIVITY_NAME, "onProgressUpdate");
     }
 
-    public void onPostExecute(){
-        minTempTV.setText(minTemp);
-        maxTempTV.setText(maxTemp);
-        currTempTV.setText(currTemp);
-        windSpeedTV.setText(windSpeed);
-        weatherImageIV.setImageBitmap(weatherPic);
+    public void onPostExecute(String result){
+//        minTempTV.setText(minTemp);
+//        maxTempTV.setText(maxTemp);
+//        currTempTV.setText(currTemp);
+//        windSpeedTV.setText(windSpeed);
+//        weatherImageIV.setImageBitmap(weatherPic);
 
         Log.i(ACTIVITY_NAME, "onPostExecute");
 
-        //weatherProgress.setVisibility(INVISIBLE);
+        weatherProgress.setVisibility(INVISIBLE);
     }
     public boolean fileExistance(String fname){
         File file = getBaseContext().getFileStreamPath(fname);
