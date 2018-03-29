@@ -12,6 +12,12 @@
     <string name="cancel">Cancel</string>
 
     <string name="startChat">Start Chat</string>
+    <string name="weatherBtnText">Check Weather</string>
     <string name="sendButton">Send</string>
+
+    <string name="wf_minTempTV">Min Temp: </string>
+    <string name="wf_maxTempTV">Max Temp: </string>
+    <string name="wf_curTempTV">Current Temp: </string>
+    <string name="wf_windSpeedTV">Wind Speed: </string>
 
 </resources>

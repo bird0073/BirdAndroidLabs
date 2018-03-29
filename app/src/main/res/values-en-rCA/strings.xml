@@ -13,7 +13,13 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
-    <string name="startChat">Start Chat</string>
-    <string name="sendButton">Send</string>
+    <string name="startChat">Start Chat i spose</string>
+    <string name="sendButton">Send eh</string>
+    <string name="weatherBtnText">Check Weather Buddy!</string>
+
+    <string name="wf_minTempTV">Colder Temp: </string>
+    <string name="wf_maxTempTV">Warmer Temp: </string>
+    <string name="wf_curTempTV">Now Temp: </string>
+    <string name="wf_windSpeedTV">Wind Speed: </string>
 
 </resources>

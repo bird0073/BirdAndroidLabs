@@ -25,6 +25,7 @@ public class ChatWindow extends Activity {
     protected static final String ACTIVITY_NAME = "ChatWindow";
     //private ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);
     private SQLiteDatabase db;
+    private boolean isTablet;
 
     @Override
     protected void onDestroy(){
@@ -37,6 +38,8 @@ public class ChatWindow extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_window);
+
+        isTablet = (findViewById(R.id.frameLayout) != null);
 
         //database****************************************************************************
         final ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);

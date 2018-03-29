@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.drbir.birdandroidlabs.StartActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello_message"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +19,7 @@
 
     <Button
         android:id="@+id/listButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ButtonText"
         tools:layout_editor_absoluteX="16dp"
@@ -25,10 +27,18 @@
 
     <Button
         android:id="@+id/startChat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/startChat"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="278dp" />
+
+    <Button
+        android:id="@+id/weatherBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/weatherBtnText"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </LinearLayout>
