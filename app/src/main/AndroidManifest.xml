@@ -31,7 +31,9 @@
             <!-- </intent-filter> -->
 
         </activity>
-        <activity android:name=".MessageDetails"></activity>
+
+        <activity android:name=".MessageDetails" />
+        <activity android:name=".fragmentLayout"></activity>
     </application>
 
 </manifest>
