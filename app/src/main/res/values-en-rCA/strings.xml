@@ -22,4 +22,5 @@
     <string name="wf_curTempTV">Now Temp: </string>
     <string name="wf_windSpeedTV">Wind Speed: </string>
 
+    <string name="toolBarBtnText">test Toolbar</string>
 </resources>

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.drbir.birdandroidlabs">
 
+    <supports-screens android:requiresSmallestWidthDp="600"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -31,9 +32,11 @@
             <!-- </intent-filter> -->
 
         </activity>
-
         <activity android:name=".MessageDetails" />
-        <activity android:name=".fragmentLayout"></activity>
+        <activity android:name=".fragmentLayout" />
+        <activity
+            android:name=".testToolbar"
+            android:label="@string/title_activity_test_toolbar"></activity>
     </application>
 
 </manifest>

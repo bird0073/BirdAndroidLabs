@@ -19,5 +19,8 @@
     <string name="wf_maxTempTV">Max Temp: </string>
     <string name="wf_curTempTV">Current Temp: </string>
     <string name="wf_windSpeedTV">Wind Speed: </string>
+    <string name="title_activity_test_toolbar"></string>
+
+    <string name="toolBarBtnText">test Toolbar</string>
 
 </resources>

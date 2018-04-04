@@ -3,6 +3,7 @@ package com.example.drbir.birdandroidlabs;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class ChatWindow extends Activity {
     //private ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);
     private SQLiteDatabase db;
     private boolean isTablet;
+    private Cursor results;
 
     @Override
     protected void onDestroy(){
@@ -44,21 +46,15 @@ public class ChatWindow extends Activity {
         //database****************************************************************************
         final ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);
         db = chatDBHelper.getWritableDatabase();
-        Cursor results = db.query(false, chatDBHelper.TABLE_NAME,
+        results = db.query(false, chatDBHelper.TABLE_NAME,
                 new String[] { chatDBHelper.KEY_ID, chatDBHelper.KEY_MESSAGE},
                 //"MESSAGE != ? ", new String [] {""},
                 null, null,
                 null, null, null, null);
-
         //Cursor results = db.rawQuery("SELECT * FROM ? ", new String[] {chatDBHelper.TABLE_NAME});
         results.moveToFirst();
-        //int colIndex = results.getColumnIndex( chatDBHelper.KEY_MESSAGE );
 
-        //for(int i = 0; i < results.getCount(); i++){
         while(!results.isAfterLast() ){
-//            int colIndex = results.getColumnIndex( chatDBHelper.KEY_MESSAGE );
-//            String mess = results.getString( colIndex );
-//            chatListArray.add(mess);
             chatListArray.add(results.getString(results.getColumnIndex( chatDBHelper.KEY_MESSAGE ) ));
 
                 Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + results.getString(
@@ -67,9 +63,7 @@ public class ChatWindow extends Activity {
         }
 
         Log.i(ACTIVITY_NAME, "Column names: " + results.getColumnName(0)
-        + ", " + results.getColumnName(1));
-        //Log.i(ACTIVITY_NAME, "Column names: " + results.getColumnNames());
-
+                    + ", " + results.getColumnName(1));
         Log.i(ACTIVITY_NAME, "Cursor's column count= " + results.getColumnCount());
 
         //database****************************************************************************
@@ -99,7 +93,19 @@ public class ChatWindow extends Activity {
 
         }); //end sendBtn onClickListner
 
+        chatList.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                if(isTablet){
+
+                }else{
+                    Intent intent = new Intent(ChatWindow.this, fragmentLayout.class);
+                    startActivity(intent);
+                }
+            }
+
+        }); //end sendBtn onClickListner
 
     }
 
@@ -134,9 +140,9 @@ public class ChatWindow extends Activity {
 
         }
 
-        public long getId(int position){
-
-            return position;
+        public long getItemId(int position){
+            results.moveToPosition(position);
+            return results.getLong(results.getColumnIndex("_id"));
         }
     }
 }
