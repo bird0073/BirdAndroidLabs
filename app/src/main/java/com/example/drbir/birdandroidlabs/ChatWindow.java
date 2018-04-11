@@ -1,6 +1,9 @@
 package com.example.drbir.birdandroidlabs;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +32,7 @@ public class ChatWindow extends Activity {
     private SQLiteDatabase db;
     private boolean isTablet;
     private Cursor results;
+    private ListView chatList;
 
     @Override
     protected void onDestroy(){
@@ -54,13 +59,14 @@ public class ChatWindow extends Activity {
         //Cursor results = db.rawQuery("SELECT * FROM ? ", new String[] {chatDBHelper.TABLE_NAME});
         results.moveToFirst();
 
-        while(!results.isAfterLast() ){
-            chatListArray.add(results.getString(results.getColumnIndex( chatDBHelper.KEY_MESSAGE ) ));
-
+        if(!results.isAfterLast()) {
+            do{
+                chatListArray.add(results.getString(results.getColumnIndex(chatDBHelper.KEY_MESSAGE)));
                 Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + results.getString(
-                        results.getColumnIndex( ChatDatabaseHelper.KEY_MESSAGE) ) );
-            results.moveToNext();
-        }
+                        results.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
+                //results.moveToNext();
+            }while(results.moveToNext());
+        }else{ Log.i(ACTIVITY_NAME, "no entry here");}
 
         Log.i(ACTIVITY_NAME, "Column names: " + results.getColumnName(0)
                     + ", " + results.getColumnName(1));
@@ -70,7 +76,7 @@ public class ChatWindow extends Activity {
 
         Button sendBtn = (Button) findViewById(R.id.sendButton);
         final EditText messageBx = (EditText) findViewById(R.id.messageBox);
-        ListView chatList = (ListView) findViewById(R.id.chatList);
+        chatList = (ListView) findViewById(R.id.chatList);
 
         final ChatAdapter messageAdapter = new ChatAdapter(this);
         chatList.setAdapter(messageAdapter);
@@ -88,26 +94,46 @@ public class ChatWindow extends Activity {
                 chatListArray.add(messageBx.getText().toString());
                 messageBx.setText("");
                 messageAdapter.notifyDataSetChanged();
-                //getView()
             }
-
         }); //end sendBtn onClickListner
 
-        chatList.setOnClickListener(new View.OnClickListener() {
+        chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+                Bundle infoBundle = new Bundle();
+                infoBundle.putLong("messPosition", messageAdapter.getItemId(position));
+                infoBundle.putString("messText", chatListArray.get(position));
+
                 if(isTablet){
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    MessageFragment messFrag = new MessageFragment();
+
+                    messFrag.setArguments(infoBundle);
+
+                    ft.replace(R.id.frameLayout, messFrag);
+                    ft.addToBackStack("");
+                    ft.commit();
 
                 }else{
                     Intent intent = new Intent(ChatWindow.this, fragmentLayout.class);
-                    startActivity(intent);
+                    intent.putExtras(infoBundle);
+                    startActivityForResult(intent, 0);
                 }
             }
+        }); //end chatList onClickListner
+    } //end onCreate
 
-        }); //end sendBtn onClickListner
+    public void onActivityResult(int requestCode, int resultCode){
+        if(requestCode == 0){
+            if(resultCode == 5){ //delete selected
+                Log.i(ACTIVITY_NAME, "delete");
 
+            }
+        }
     }
+
 
     public class ChatAdapter extends ArrayAdapter<String>{
 
@@ -127,7 +153,6 @@ public class ChatWindow extends Activity {
 
         public View getView(int position, View convertView, ViewGroup parent){
             //this returns the layout that will be positioned at the specified row in the list
-            //step 9
             LayoutInflater inflater = ChatWindow.this.getLayoutInflater();
             View result = null;
             if(position%2==0)
@@ -142,7 +167,8 @@ public class ChatWindow extends Activity {
 
         public long getItemId(int position){
             results.moveToPosition(position);
-            return results.getLong(results.getColumnIndex("_id"));
+            //return results.getLong(results.getColumnIndex("_id"));
+            return position;
         }
     }
 }

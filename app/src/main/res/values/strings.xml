@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BirdAndroidLabs</string>
+    <string name="app_name">BirdApp</string>
     <string name="hello_message">Hello World!</string>
     <string name="ButtonText">I\'m a button!</string>
     <string name="login_Text">Login: </string>
@@ -19,8 +19,21 @@
     <string name="wf_maxTempTV">Max Temp: </string>
     <string name="wf_curTempTV">Current Temp: </string>
     <string name="wf_windSpeedTV">Wind Speed: </string>
-    <string name="title_activity_test_toolbar"></string>
 
+    <string name="title_activity_test_toolbar"></string>
     <string name="toolBarBtnText">test Toolbar</string>
+    <string name="tb_alertTitle">Do you want to go back?</string>
+    <string name="tb_alertPositive">Sure, go back</string>
+    <string name="tb_alertNegative">No</string>
+    <string name="tb_option_1">option 1</string>
+    <string name="tb_option_2">option 2</string>
+    <string name="tb_option_3">option 3</string>
+    <string name="tb_about">about</string>
+
+
+    <string name="alert_Message">Replace the Snack message?</string>
+    <string name="alert_positive">ok</string>
+    <string name="alert_negative">no</string>
+    <string name="alert_sampleText">Message here</string>
 
 </resources>

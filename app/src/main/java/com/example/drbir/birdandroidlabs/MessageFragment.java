@@ -15,18 +15,28 @@ import android.widget.TextView;
 public class MessageFragment extends Fragment {
     protected static final String ACTIVITY_NAME = "basic";
 
+    long messPosition;
+    String messText;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(ACTIVITY_NAME, "onCreate");
+        //Bundle infoPassed = savedInstanceState;
+        //Bundle infoPassed = getIntent().getExtras();
+
+        messPosition = getArguments().getLong("messPosition");
+        messText = getArguments().getString("messText");
+        //setContentView(R.layout.activity_chat_window);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
         View gui = inflater.inflate(R.layout.activity_fragment_layout, null);
-        //TextView tv =(TextView) gui.findViewById(R.id.fragment_to);
-        //tv.setText("To:" + userText);
+        TextView messTV = (TextView) gui.findViewById(R.id.messageTV);
+        TextView positionTV = (TextView) gui.findViewById(R.id.idTV);
+        messTV.setText(messText);
+        //positionTV.setText(messPosition);
         return gui;
     }
 

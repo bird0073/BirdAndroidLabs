@@ -3,23 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/action_one"
-        android:title="One"
+        android:title="@+id/tb_option_1"
         android:icon="@drawable/icons8_target_50"
         android:orderInCategory="101"
         app:showAsAction="always" />
 
 
     <item android:id="@+id/action_two"
-        android:title="two"
+        android:title="@+id/tb_option_2"
         android:icon="@drawable/icons8_archeology_50"
         android:orderInCategory="111"
         app:showAsAction="always" />
 
 
     <item android:id="@+id/action_three"
-        android:title="three"
+        android:title="@+id/tb_option_3"
         android:icon="@drawable/icons8_map_50"
         android:orderInCategory="121"
         app:showAsAction="always" />
 
+    <item android:id="@+id/about"
+        android:title="@+id/tb_about"
+        android:orderInCategory="131"
+        app:showAsAction="never"
+        />
+
 </menu>
+
