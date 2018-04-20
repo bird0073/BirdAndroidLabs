@@ -33,6 +33,8 @@ public class ChatWindow extends Activity {
     private boolean isTablet;
     private Cursor results;
     private ListView chatList;
+    private ChatDatabaseHelper chatDBHelper;
+    private ChatAdapter messageAdapter;
 
     @Override
     protected void onDestroy(){
@@ -49,13 +51,12 @@ public class ChatWindow extends Activity {
         isTablet = (findViewById(R.id.frameLayout) != null);
 
         //database****************************************************************************
-        final ChatDatabaseHelper chatDBHelper = new ChatDatabaseHelper(this);
+        chatDBHelper = new ChatDatabaseHelper(this);
         db = chatDBHelper.getWritableDatabase();
         results = db.query(false, chatDBHelper.TABLE_NAME,
                 new String[] { chatDBHelper.KEY_ID, chatDBHelper.KEY_MESSAGE},
                 //"MESSAGE != ? ", new String [] {""},
-                null, null,
-                null, null, null, null);
+                null, null,null, null, null, null);
         //Cursor results = db.rawQuery("SELECT * FROM ? ", new String[] {chatDBHelper.TABLE_NAME});
         results.moveToFirst();
 
@@ -64,7 +65,6 @@ public class ChatWindow extends Activity {
                 chatListArray.add(results.getString(results.getColumnIndex(chatDBHelper.KEY_MESSAGE)));
                 Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + results.getString(
                         results.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
-                //results.moveToNext();
             }while(results.moveToNext());
         }else{ Log.i(ACTIVITY_NAME, "no entry here");}
 
@@ -78,7 +78,7 @@ public class ChatWindow extends Activity {
         final EditText messageBx = (EditText) findViewById(R.id.messageBox);
         chatList = (ListView) findViewById(R.id.chatList);
 
-        final ChatAdapter messageAdapter = new ChatAdapter(this);
+        messageAdapter = new ChatAdapter(this);
         chatList.setAdapter(messageAdapter);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -122,18 +122,20 @@ public class ChatWindow extends Activity {
                     startActivityForResult(intent, 0);
                 }
             }
-        }); //end chatList onClickListner
-    } //end onCreate
+            public void onActivityResult(int requestCode, int resultCode, Intent data){
+                if(requestCode == 0){
+                    if(resultCode == 5){ //delete selected
+                        Log.i(ACTIVITY_NAME, "delete");
+                        long dbPosition = messageAdapter.getItemId((int)getIntent().getExtras().getLong("messPosition"));
+                        db.delete(chatDBHelper.TABLE_NAME,"WHERE ID ==" +dbPosition, null);
 
-    public void onActivityResult(int requestCode, int resultCode){
-        if(requestCode == 0){
-            if(resultCode == 5){ //delete selected
-                Log.i(ACTIVITY_NAME, "delete");
-
+                        //messageAdapter
+                        //getIntent().getExtras();
+                    }
+                }
             }
-        }
-    }
-
+        }); //end chatList onClickListner
+} //end onCreate
 
     public class ChatAdapter extends ArrayAdapter<String>{
 
@@ -167,8 +169,8 @@ public class ChatWindow extends Activity {
 
         public long getItemId(int position){
             results.moveToPosition(position);
-            //return results.getLong(results.getColumnIndex("_id"));
-            return position;
+            Log.i("id podition" , ""+results.getLong(results.getColumnIndex("ID")));
+            return results.getLong(results.getColumnIndex("ID"));
         }
     }
 }

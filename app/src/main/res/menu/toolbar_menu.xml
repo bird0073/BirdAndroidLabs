@@ -24,6 +24,7 @@
 
     <item android:id="@+id/about"
         android:title="@+id/tb_about"
+        android:text="@+id/tb_about"
         android:orderInCategory="131"
         app:showAsAction="never"
         />

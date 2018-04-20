@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -22,12 +23,9 @@ public class MessageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(ACTIVITY_NAME, "onCreate");
-        //Bundle infoPassed = savedInstanceState;
-        //Bundle infoPassed = getIntent().getExtras();
 
         messPosition = getArguments().getLong("messPosition");
         messText = getArguments().getString("messText");
-        //setContentView(R.layout.activity_chat_window);
     }
 
     @Override
@@ -36,7 +34,16 @@ public class MessageFragment extends Fragment {
         TextView messTV = (TextView) gui.findViewById(R.id.messageTV);
         TextView positionTV = (TextView) gui.findViewById(R.id.idTV);
         messTV.setText(messText);
-        //positionTV.setText(messPosition);
+
+        Button delBtn = (Button)gui.findViewById(R.id.deleteBtn);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Delete Button", "Delete");
+                getActivity().setResult(5, getActivity().getIntent());
+                getActivity().finish();
+            }
+        });
         return gui;
     }
 

@@ -2,7 +2,6 @@ package com.example.drbir.birdandroidlabs;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -14,13 +13,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-//import android.support.design.widget.FloatingActionButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 
 import static com.example.drbir.birdandroidlabs.R.id.fab;
+import static com.example.drbir.birdandroidlabs.R.id.tb_snack_message;
 
 public class testToolbar extends AppCompatActivity {
 

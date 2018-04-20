@@ -20,15 +20,17 @@
     <string name="wf_curTempTV">Current Temp: </string>
     <string name="wf_windSpeedTV">Wind Speed: </string>
 
-    <string name="title_activity_test_toolbar"></string>
+    <string name="title_activity_test_toolbar">No Title</string>
     <string name="toolBarBtnText">test Toolbar</string>
     <string name="tb_alertTitle">Do you want to go back?</string>
-    <string name="tb_alertPositive">Sure, go back</string>
+    <string name="tb_alertPositive">Yes</string>
     <string name="tb_alertNegative">No</string>
     <string name="tb_option_1">option 1</string>
     <string name="tb_option_2">option 2</string>
     <string name="tb_option_3">option 3</string>
     <string name="tb_about">about</string>
+
+    <string name="tb_snack_message">You selected item 1</string>
 
 
     <string name="alert_Message">Replace the Snack message?</string>
